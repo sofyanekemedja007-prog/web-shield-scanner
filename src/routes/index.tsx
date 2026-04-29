@@ -3,18 +3,20 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { Header } from "@/components/Header";
 import { Scanner } from "@/components/Scanner";
-import { ShieldCheck } from "lucide-react";
+import { FileScanner } from "@/components/FileScanner";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ShieldCheck, Link2, FileUp } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "VirusSKWITCH — Instant URL Threat Scanner" },
+      { title: "ScanVirusDZ — Instant URL & File Threat Scanner" },
       {
         name: "description",
         content:
-          "Scan any URL with 70+ antivirus engines via VirusTotal. Get an instant safe / dangerous verdict with detailed engine results.",
+          "Scan any URL or file with 70+ antivirus engines via VirusTotal. Get an instant safe / dangerous verdict with detailed engine results.",
       },
-      { property: "og:title", content: "VirusSKWITCH — Instant URL Threat Scanner" },
+      { property: "og:title", content: "ScanVirusDZ — Instant URL & File Threat Scanner" },
       {
         property: "og:description",
         content: "Paste a link, get a verdict in seconds. Powered by VirusTotal.",
@@ -55,7 +57,27 @@ function App() {
             {t.heroDesc}
           </p>
         </div>
-        <Scanner />
+        <Tabs defaultValue="url" className="w-full">
+          <TabsList className="glass mx-auto mb-6 grid w-full max-w-md grid-cols-2 h-auto p-1">
+            <TabsTrigger value="url" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary py-2.5 gap-2">
+              <Link2 className="h-4 w-4" />
+              {t.tabUrl}
+            </TabsTrigger>
+            <TabsTrigger value="file" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary py-2.5 gap-2">
+              <FileUp className="h-4 w-4" />
+              {t.tabFile}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="url" className="mt-0">
+            <Scanner />
+          </TabsContent>
+          <TabsContent value="file" className="mt-0">
+            <FileScanner />
+          </TabsContent>
+        </Tabs>
+        <div className="mt-10 text-center text-xs text-muted-foreground font-mono">
+          ScanVirusDZ
+        </div>
       </main>
       <footer className="border-t border-border/50 py-6 text-center text-xs text-muted-foreground font-mono">
         {t.poweredBy}
