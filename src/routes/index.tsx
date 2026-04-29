@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/lib/theme";
 import { Header } from "@/components/Header";
 import { Scanner } from "@/components/Scanner";
 import { FileScanner } from "@/components/FileScanner";
+import { DownloadAndroidButton } from "@/components/DownloadAndroidButton";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ShieldCheck, Link2, FileUp } from "lucide-react";
 
@@ -56,6 +57,7 @@ function App() {
           <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
             {t.heroDesc}
           </p>
+          <DownloadAndroidButton />
         </div>
         <Tabs defaultValue="url" className="w-full">
           <TabsList className="glass mx-auto mb-6 grid w-full max-w-md grid-cols-2 h-auto p-1">
