@@ -57,7 +57,27 @@ function App() {
             {t.heroDesc}
           </p>
         </div>
-        <Scanner />
+        <Tabs defaultValue="url" className="w-full">
+          <TabsList className="glass mx-auto mb-6 grid w-full max-w-md grid-cols-2 h-auto p-1">
+            <TabsTrigger value="url" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary py-2.5 gap-2">
+              <Link2 className="h-4 w-4" />
+              {t.tabUrl}
+            </TabsTrigger>
+            <TabsTrigger value="file" className="data-[state=active]:bg-primary/15 data-[state=active]:text-primary py-2.5 gap-2">
+              <FileUp className="h-4 w-4" />
+              {t.tabFile}
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="url" className="mt-0">
+            <Scanner />
+          </TabsContent>
+          <TabsContent value="file" className="mt-0">
+            <FileScanner />
+          </TabsContent>
+        </Tabs>
+        <div className="mt-10 text-center text-xs text-muted-foreground font-mono">
+          ScanVirusDZ
+        </div>
       </main>
       <footer className="border-t border-border/50 py-6 text-center text-xs text-muted-foreground font-mono">
         {t.poweredBy}
