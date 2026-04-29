@@ -8,13 +8,33 @@ const APK_URL =
 function isNativeApp(): boolean {
   if (typeof window === "undefined") return true;
   try {
-    // Capacitor injects this global on native platforms
-    const cap = (window as any).Capacitor;
+    const w = window as any;
+    // Capacitor native detection
+    const cap = w.Capacitor;
     if (cap?.isNativePlatform?.()) return true;
+    if (cap?.isNative === true) return true;
     if (cap?.getPlatform && cap.getPlatform() !== "web") return true;
+    // Median / GoNative wrappers
+    if (w.median || w.gonative || w.JSBridge) return true;
+    // ReactNative WebView
+    if (w.ReactNativeWebView) return true;
   } catch {}
-  const ua = navigator.userAgent || "";
-  if (/Median|wv\)/i.test(ua) && /Android|iPhone|iPad/i.test(ua)) return true;
+  const ua = (navigator.userAgent || "").toLowerCase();
+  // Common WebView / wrapper signatures
+  if (/median|gonative|webview|; wv\)|\bwv\b/.test(ua)) return true;
+  // Android WebView heuristic: Android + Version/x.x without Chrome standalone
+  if (/android/.test(ua) && /version\//.test(ua) && !/chrome\/[.0-9]* mobile safari/.test(ua)) return true;
+  // iOS standalone (added to home screen) or non-Safari iOS browsers in app
+  if ((navigator as any).standalone === true) return true;
+  // PWA installed (display-mode: standalone)
+  try {
+    if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true;
+  } catch {}
+  // Explicit query flag to force-hide from native shell
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("native") === "1" || params.get("app") === "1") return true;
+  } catch {}
   return false;
 }
 
@@ -23,7 +43,11 @@ export function DownloadAndroidButton() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setShow(!isNativeApp());
+    // Defer to next tick so Capacitor/wrapper bridges have time to inject
+    const check = () => setShow(!isNativeApp());
+    check();
+    const t = setTimeout(check, 300);
+    return () => clearTimeout(t);
   }, []);
 
   if (!show) return null;
