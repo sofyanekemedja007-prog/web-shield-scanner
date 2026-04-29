@@ -3,7 +3,9 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { Header } from "@/components/Header";
 import { Scanner } from "@/components/Scanner";
-import { ShieldCheck } from "lucide-react";
+import { FileScanner } from "@/components/FileScanner";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ShieldCheck, Link2, FileUp } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
