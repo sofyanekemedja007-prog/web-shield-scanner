@@ -8,13 +8,13 @@ import { ShieldCheck } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "VirusSKWITCH — Instant URL Threat Scanner" },
+      { title: "ScanVirusDZ — Instant URL & File Threat Scanner" },
       {
         name: "description",
         content:
-          "Scan any URL with 70+ antivirus engines via VirusTotal. Get an instant safe / dangerous verdict with detailed engine results.",
+          "Scan any URL or file with 70+ antivirus engines via VirusTotal. Get an instant safe / dangerous verdict with detailed engine results.",
       },
-      { property: "og:title", content: "VirusSKWITCH — Instant URL Threat Scanner" },
+      { property: "og:title", content: "ScanVirusDZ — Instant URL & File Threat Scanner" },
       {
         property: "og:description",
         content: "Paste a link, get a verdict in seconds. Powered by VirusTotal.",

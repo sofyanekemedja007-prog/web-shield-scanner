@@ -10,7 +10,7 @@ export function Logo({ size = 36 }: { size?: number }) {
         />
         <img
           src={logo}
-          alt="VirusSKWITCH logo"
+          alt="ScanVirusDZ logo"
           width={size}
           height={size}
           className="relative rounded-xl object-contain"
@@ -18,7 +18,7 @@ export function Logo({ size = 36 }: { size?: number }) {
       </div>
       <div className="flex flex-col leading-none">
         <span className="font-display font-extrabold tracking-tight text-base">
-          Virus<span className="text-gradient">SKWITCH</span>
+          ScanVirus<span className="text-gradient">DZ</span>
         </span>
         <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mt-1">
           URL Threat Scanner
