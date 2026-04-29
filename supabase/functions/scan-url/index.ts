@@ -101,8 +101,13 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e: any) {
-    console.error("scan-url error:", e?.message);
-    return new Response(JSON.stringify({ error: e?.message ?? "Unknown error" }), {
+    console.error("scan-url error:", e?.message, e?.stack);
+    const msg = String(e?.message ?? "");
+    let clientMsg = "Scan failed. Please try again later.";
+    if (/\b429\b/.test(msg)) clientMsg = "Service is busy, please retry shortly.";
+    else if (/\b40[13]\b/.test(msg)) clientMsg = "Scan service is temporarily unavailable.";
+    else if (/Invalid URL/i.test(msg)) clientMsg = "Invalid URL.";
+    return new Response(JSON.stringify({ error: clientMsg }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

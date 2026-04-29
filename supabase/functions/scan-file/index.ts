@@ -88,9 +88,16 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e: any) {
-    console.error("scan-file error:", e?.message);
-    return new Response(JSON.stringify({ error: e?.message ?? "Unknown error" }), {
-      status: 500,
+    console.error("scan-file error:", e?.message, e?.stack);
+    const msg = String(e?.message ?? "");
+    let clientMsg = "Scan failed. Please try again later.";
+    let status = 500;
+    if (/exceeds 32MB/i.test(msg)) { clientMsg = "File exceeds 32MB limit."; status = 413; }
+    else if (/Missing file/i.test(msg)) { clientMsg = "Missing file."; status = 400; }
+    else if (/\b429\b/.test(msg)) clientMsg = "Service is busy, please retry shortly.";
+    else if (/\b40[13]\b/.test(msg)) clientMsg = "Scan service is temporarily unavailable.";
+    return new Response(JSON.stringify({ error: clientMsg }), {
+      status,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
