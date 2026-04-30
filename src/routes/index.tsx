@@ -41,6 +41,17 @@ function App() {
   const { t } = useI18n();
   return (
     <div className="min-h-screen flex flex-col">
+      {/* كود إخفاء العلامة المائية المضافة من Lovable */}
+      <style>{`
+        #lovable-badge, 
+        .lovable-badge, 
+        [class*="lovable-badge"] { 
+          display: none !important; 
+          visibility: hidden !important; 
+          pointer-events: none !important;
+        }
+      `}</style>
+      
       <div className="grid-bg fixed inset-0 -z-10 opacity-40 pointer-events-none" />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-12 md:py-20 max-w-4xl w-full">
